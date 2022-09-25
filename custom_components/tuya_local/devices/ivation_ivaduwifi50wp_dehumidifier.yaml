@@ -1,0 +1,196 @@
+name: Ivation 50 Pint Dehumidifier
+products:
+  # Ivation Smart 50 Pint Dehumidifier with Drainage Pump
+  # IVADUWIFI50WP on website, IVADH70PW in firmware
+  - id: gywqtqpgiu74ozok
+primary_entity:
+  entity: humidifier
+  class: dehumidifier
+  dps:
+    - id: 1
+      name: switch
+      type: boolean
+      mapping:
+        - dps_val: false
+          icon: "mdi:air-humidifier-off"
+          icon_priority: 3
+        - dps_val: true
+          icon: "mdi:air-humidifier"
+          icon_priority: 5
+    - id: 3
+      type: integer
+      name: current_humidity
+      readonly: true
+    - id: 4
+      type: integer
+      name: humidity
+      range:
+        min: 30
+        max: 90
+      mapping:
+        - step: 5
+    - id: 109
+      type: integer
+      name: current_temperature
+      readonly: true
+    - id: 110
+      type: boolean
+      name: sensor
+      readonly: true
+      mapping:
+        - dps_val: false
+          value: OK
+        - dps_val: true
+          value: Full
+          icon: "mdi:cup-water"
+          icon_priority: 2
+    - id: 111
+      type: boolean
+      name: defrosting
+      mapping:
+        - dps_val: true
+          icon: "mdi:snowflake-melt"
+          icon_priority: 2
+      readonly: true
+    - id: 112
+      name: temperature_unit
+      type: string
+      mapping:
+        - dps_val: "c"
+          icon: "mdi:temperature-celsius"
+          icon_priority: 3
+        - dps_val: "f"
+          icon: "mdi:temperature-fahrenheit"
+          icon_priority: 5
+    - id: 113
+      name: continuous_mode
+      type: boolean
+      mapping:
+        - dps_val: false
+          icon: "mdi:air-humidifier-off"
+          icon_priority: 3
+        - dps_val: true
+          icon: "mdi:air-humidifier"
+          icon_priority: 5
+secondary_entities:
+  - entity: fan
+    dps:
+      - id: 6
+        type: string
+        name: speed
+        mapping:
+          - dps_val: "1"
+            value: "Level 1"
+          - dps_val: "2"
+            value: "Level 2"
+      - id: 116
+        # TODO: what does it exactly mean?
+        name: real_fan_speed
+        type: integer
+        hidden: true
+        readonly: true
+  - entity: sensor
+    name: Temperature
+    class: temperature
+    dps:
+      - id: 109
+        type: integer
+        name: sensor
+        unit: °C/°F
+        class: measurement
+        readonly: true
+  - entity: sensor
+    name: Humidity
+    class: humidity
+    dps:
+      - id: 3
+        type: integer
+        name: sensor
+        class: measurement
+        unit: "%"
+        readonly: true
+  - entity: binary_sensor
+    name: Tank
+    class: problem
+    category: diagnostic
+    dps:
+      - id: 110
+        type: boolean
+        name: sensor
+        readonly: true
+        mapping:
+          - dps_val: false
+            value: OK
+          - dps_val: true
+            value: Full
+            icon: "mdi:cup-water"
+            icon_priority: 2
+  - entity: binary_sensor
+    name: Defrost
+    class: cold
+    icon: "mdi:snowflake-melt"
+    category: diagnostic
+    dps:
+      - id: 111
+        type: boolean
+        name: sensor
+        readonly: true
+  - entity: number
+    name: Fault
+    class: problem
+    category: diagnostic
+    dps:
+      - id: 11
+        name: value
+        type: integer
+        hidden: true
+        readonly: true
+  - entity: number
+    name: Timer
+    icon: "msi:timer"
+    category: config
+    dps:
+      - id: 12
+        name: value
+        type: integer
+        unit: h
+        range:
+          min: 0
+          max: 24
+  - entity: number
+    name: Time Left
+    icon: "msi:timer"
+    category: diagnostic
+    dps:
+      - id: 13
+        name: value
+        type: integer
+        unit: h
+        readonly: true
+  - entity: sensor
+    name: Coil Temperature
+    class: temperature
+    dps:
+      - id: 114
+        type: integer
+        name: sensor
+        unit: °C/°F
+        class: measurement
+        readonly: true
+  - entity: binary_sensor
+    name: Compressor Status
+    category: diagnostic
+    dps:
+      - id: 115
+        type: boolean
+        name: sensor
+        readonly: true
+  - entity: binary_sensor
+    # TODO: is it pump activity status?
+    name: Water SW Status
+    category: diagnostic
+    dps:
+      - id: 117
+        type: boolean
+        name: sensor
+        readonly: true
